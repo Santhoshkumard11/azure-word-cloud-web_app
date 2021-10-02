@@ -20,7 +20,7 @@ class CosmosDBClient:
     def connect(self):
         """Initiate a connection to cosmos DB"""
         # connect with the cosmos DB client
-        print(self.HOST, self.MASTER_KEY)
+
         self.client = cosmos_client.CosmosClient(
             self.HOST,
             {"masterKey": self.MASTER_KEY},
@@ -65,7 +65,7 @@ class CosmosDBClient:
             # get the document from cosmos db
             read_items = list(self.container.read_all_items(max_item_count=100))
         
-            logging.info(f"Successfully received the data")
+            logging.info(f"Successfully received all the items")
             
         except Exception as e:
             pass
