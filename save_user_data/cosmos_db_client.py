@@ -3,18 +3,17 @@ import azure.cosmos.documents as documents
 import azure.cosmos.cosmos_client as cosmos_client
 import azure.cosmos.exceptions as exceptions
 from azure.cosmos.partition_key import PartitionKey
-
-
+import os
+import random
+from datetime import datetime
 
 # Building a custom cosmos db client
 class CosmosDBClient:
     def __init__(self, database_name: str, container_name: str):
 
         # get all the configurations to connect to the Cosmos DB
-        self.HOST = cosmosdb_config.settings["host"]
-        self.MASTER_KEY = cosmosdb_config.settings["master_key"]
-        self.DATABASE_ID = ""
-        self.CONTAINER_ID = ""
+        self.HOST = os.environ.get("COSMOS_DB_HOST")
+        self.MASTER_KEY = os.environ.get("COSMOS_DB_HOST_KEY")
 
         self.database_name = database_name
 
@@ -23,6 +22,7 @@ class CosmosDBClient:
     def connect(self):
         """Initiate a connection to cosmos DB"""
         # connect with the cosmos DB client
+        print(self.HOST, self.MASTER_KEY)
         self.client = cosmos_client.CosmosClient(
             self.HOST,
             {"masterKey": self.MASTER_KEY},
@@ -46,9 +46,14 @@ class CosmosDBClient:
         """Add new item to cosmos DB"""
         try:
             # create item in document from cosmos db
+            item["id"] = str(random.randint(1,10000)) + datetime.now().strftime("%d%m%y%H%M%S")
+            
+            logging.info(f"Trying to add new item - {item}")
+            
             self.container.create_item(body=item)
 
             logging.info(f"Successfully added the item to the database")
 
         except Exception as e:
             logging.error(f"Error while adding items to the container - {e}")
+            raise e
