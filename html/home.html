@@ -1,17 +1,146 @@
-<html>
-<body>
-<h1>Hello from Azure Function</h1>
-<h3>Using file</h3>
-<div>
-    <input type="text" id="input_name" placeholder="Enter your name">
-</div>
-<div>
-    <input type="text" id="input_id" placeholder="Enter your ID">
-</div>
-<div>
-    <input type="text" name="level" id="level" placeholder="Enter your level">
-</div>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Santhosh - Word Cloud</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/9e7e33d92a.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            min-height: 75rem;
+            padding-top: 100px;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
+
+    <!-- Added for toast message -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-color: #e1d3f3">
+    <div id="app">
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" style="background-color: #533b96 !important">
+            <div class="container">
+                <span class="navbar-brand">Word Cloud Web App - Santhosh</span>
+                <span class="navbar-brand">Make a difference</span>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="ml-9">
+                <input type="text" id="input_name" placeholder="Enter your name" />
+
+                <input type="text" id="input_id" placeholder="Enter your ID" />
+
+                <input type="text" name="level" id="input_level" placeholder="Enter your level" />
+
+                <button class="btn-success" type="submit" id="submit-user-data-btn">Submit</button>
+                <button class="btn-danger float-right" type="reset">Refresh</button>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <center>
+                <img src="https://picsum.photos/600" id="word-cloud-image" />
+            </center>
+        </div>
+    </div>
+
+    <!-- Toast Message -->
+    <div aria-live="assertive" role="alert" aria-atomic="true" style="position: relative; min-height: 60px">
+        <div class="toast" style="position: absolute; top: 0; right: 0" data-autohide="false">
+            <div class="toast-header">
+                <strong class="mr-auto">Image Updated!!! </strong>
+                <small></small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">1 sec ago</div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center">
+        <!-- Grid container -->
+        <div class="container p-0 pb-0">
+            <h2>Follow me on</h2>
+            <!-- Section: Social media -->
+            <section class="mb-4">
+                <!-- Linkedin -->
+                <a class="m-2" style="color: #0082ca; !important font-size:250%"
+                    href="https://www.linkedin.com/in/santhosh-kumard" target="_blank" role="button">
+                    <i class="fa fa-linkedin-square" aria-hidden="true" style="font-size: 250%"></i>
+                </a>
+                <!-- Github -->
+                <a class="m-2" style="color: #333333; !important font-size:250%"
+                    href="https://github.com/Santhoshkumard11/azure-developer-stories-leukemia-classifier-on-azure"
+                    target="_blank" role="button"><i class="fa fa-github-square" aria-hidden="true"
+                        style="font-size: 250%"></i>
+                </a>
+
+                <!-- Medium -->
+                <a class="m-2" style="color: #3b5998; !important" href="https://santhoshkdhana.medium.com/"
+                    target="_blank" role="button"><i class="fa fa-medium" aria-hidden="true"
+                        style="font-size: 250%"></i></a>
+
+                <!-- Twitter -->
+                <a class="m-2" style="color: #55acee; !important" href="https://twitter.com/santhos12551"
+                    target="_blank" role="button"><i class="fa fa-twitter-square" style="font-size: 250%"></i></a>
+
+                <!-- Instagram -->
+                <a class="m-2" style="color: #ac2bac; !important" href="https://www.instagram.com/santhoshgoku/"
+                    target="_blank" role="button"><i class="fa fa-instagram" style="font-size: 250%"></i></a>
+            </section>
+            <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="" style="background-color: #5c5372">
+            <span class="text-white"> © 2021 Copyright </span>
+            <a class="text-white" href="https://github.com/Santhoshkumard11">Santhosh Kumar</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    <script type="application/javascript">
+
+        $("#submit-user-data-btn").click(function () {
+
+            var user_name = $("#input_name").val();
+            var user_id = $("#input_id").val();
+            var user_level = $("#input_level").val();
+
+            if (user_name == "" || user_id == "" || user_level == ""){
+                alert("Enter all the required details");
+                return;
+            }
+            console.log("data validation passed sending in post request!!");
+            var data = {"user_name": user_name, "associate_id": user_id, "associate_level": user_level};
+            
+            $.post("http://localhost:7071/api/save_user_data",JSON.stringify(data))
+            .done(function (result){
+                alert(`returned ${result.data}`)
+            });
+        });
+
+
+        $(document).ready(function () {
+            //console.log("Started fetching the data....");
+            $(".toast").toast("show").fadeOut(500);
+        });
+
+    </script>
 </body>
-<script>
-</script>
+
 </html>

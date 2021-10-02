@@ -1,4 +1,4 @@
-from cosmos_db_client import CosmosDBClient
+from .cosmos_db_client import CosmosDBClient
 
 import logging
 
@@ -6,9 +6,9 @@ def save_user_data(user_name:str, associate_id: int, associate_level:str):
     
     try:
             
-        cosmos_db_client = CosmosDBClient("WordCloudDB", "WordCloudUserTable")
+        # cosmos_db_client = CosmosDBClient("WordCloudDB", "WordCloudUserTable")
 
-        cosmos_db_client.connect()
+        # cosmos_db_client.connect()
         
         new_item_dict = {
             {"name": user_name,
@@ -16,7 +16,8 @@ def save_user_data(user_name:str, associate_id: int, associate_level:str):
             "level": associate_level} 
                         }
 
-        cosmos_db_client.add_item(new_item_dict)
+        # cosmos_db_client.add_item(new_item_dict)
+        print(new_item_dict)
         
     except:
         

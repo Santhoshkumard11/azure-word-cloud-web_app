@@ -4,9 +4,7 @@ import azure.cosmos.cosmos_client as cosmos_client
 import azure.cosmos.exceptions as exceptions
 from azure.cosmos.partition_key import PartitionKey
 
-from dotenv import load_dotenv
 
-load_dotenv()
 
 # Building a custom cosmos db client
 class CosmosDBClient:
@@ -43,22 +41,6 @@ class CosmosDBClient:
         )
 
         logging.info("Successfully connected to CosmosDB")
-
-    def get_all_items(self):
-        """Read all the items from cosmos db"""
-        read_items = ""
-
-        try:
-            # get the document from cosmos db
-            read_items = list(self.container.read_all_items(max_item_count=10))
-
-            logging.info(f"Successfully received the data")
-
-        except Exception as e:
-            pass
-            logging.error(f"Error while getting the items from the container")
-
-        return read_items
 
     def add_item(self,item: dict):
         """Add new item to cosmos DB"""
