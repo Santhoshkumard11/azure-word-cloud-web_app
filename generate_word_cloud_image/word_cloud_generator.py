@@ -1,15 +1,15 @@
 from wordcloud import WordCloud, STOPWORDS
 import logging
-import matplotlib.pyplot as plt
-
+import io
+buf = io.BytesIO()
 
 class WorldCloudGenerate:
     
-    def __init__(self, cosmos_db_client_obj, blob_client_obj) -> None:
+    def __init__(self, cosmos_db_client_obj, blob_client) -> None:
         
     
         self.cosmos_db_client_obj = cosmos_db_client_obj
-        self.blob_client_obj = blob_client_obj
+        self.blob_client = blob_client
         
         self.names_only_list = []
         
@@ -41,15 +41,19 @@ class WorldCloudGenerate:
 
 
     def save_image_to_blob_storage(self):
-        
-        self.blob_client_obj.upload_blob(self.image_object.tobytes(), blob_type="BlockBlob")    
+        self.image_object.save(buf, format='png')
+        byte_im = buf.getvalue()        
+        self.blob_client.upload_blob(byte_im, overwrite=True, blob_type="BlockBlob")    
     
 
     def start_process(self):
+        logging.info("Starting generate word cloud image")
         self.query_all_item_from_cosmos_db()
         self.get_all_names_from_cosmos_db()
         self.generate_word_cloud()
+        logging.info("Successfully generated word cloud image")
         self.save_image_to_blob_storage()
+        logging.info("Successfully uploaded image to blob storage")
         
 
         
