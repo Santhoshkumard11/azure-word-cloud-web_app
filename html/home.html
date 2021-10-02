@@ -128,7 +128,7 @@
             console.log("data validation passed sending in post request!!");
             var data = {"user_name": user_name, "associate_id": user_id, "associate_level": user_level};
             
-            $.post("http://localhost:7071/api/save_user_data",JSON.stringify(data))
+            $.post("https://word-cloud-web-app.azurewebsites.net/api/save_user_data",JSON.stringify(data))
             .done(function (result){
                 var json_result = JSON.parse(result);
                 if(json_result.result == "success"){

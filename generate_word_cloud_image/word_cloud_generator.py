@@ -13,7 +13,7 @@ class WorldCloudGenerate:
         
         self.name_list = self.cosmos_db_client_obj.get_all_items()
 
-    def
+    
 
 
     def save_image_to_blob_storage(self):
