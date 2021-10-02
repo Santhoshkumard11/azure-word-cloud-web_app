@@ -130,7 +130,14 @@
             
             $.post("http://localhost:7071/api/save_user_data",JSON.stringify(data))
             .done(function (result){
-                alert(`returned ${result.data}`)
+                var json_result = JSON.parse(result);
+                if(json_result.result == "success"){
+                    alert(`Successfully saved the data to Cosmos DB`)
+                }
+                else{
+                    alert(`Error - ${json_result.error_message}`)
+                }
+                
             });
         });
 
