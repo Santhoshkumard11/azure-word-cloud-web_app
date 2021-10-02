@@ -1,7 +1,5 @@
 import logging
-import azure.cosmos.documents as documents
 import azure.cosmos.cosmos_client as cosmos_client
-import azure.cosmos.exceptions as exceptions
 from azure.cosmos.partition_key import PartitionKey
 import os
 import random
@@ -57,3 +55,21 @@ class CosmosDBClient:
         except Exception as e:
             logging.error(f"Error while adding items to the container - {e}")
             raise e
+
+    def get_all_items(self):
+        """ Read all the items from cosmos db
+        """
+        read_items = ""
+        
+        try:
+            # get the document from cosmos db
+            read_items = list(self.container.read_all_items(max_item_count=100))
+        
+            logging.info(f"Successfully received the data")
+            
+        except Exception as e:
+            pass
+            logging.error(
+                f"Error while getting the items from the container")
+            
+        return read_items
