@@ -1,5 +1,10 @@
-## Word Cloud Web App
+## Word Cloud Web App  📑💨
 This is a simple project to demonstrate the power of Azure
+
+### Services Used
+- #### Azure Functions (HTTP Trigger, Timer Trigger) 
+- #### Azure CosmosDB
+- #### Azure Blob Storage
 
 #### Fill in the inputs to see your name on the word cloud
 
